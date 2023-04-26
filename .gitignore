@@ -1,0 +1,30 @@
+# Compiled class files
+target/
+build/
+
+# Maven build files
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+*.classpath
+*.project
+.settings/
+.vscode/settings.json
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Hibernate configuration file
+hibernate.cfg.xml
+
+# Operating System files
+.DS_Store
+Thumbs.db
