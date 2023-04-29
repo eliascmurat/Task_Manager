@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,6 +28,14 @@ public class UserDAO {
         executeInTransaction(session -> session.persist(user));
     }
 
+    public List<User> findAll() {
+        return executeWithSession(session -> session.createQuery("FROM User", User.class).list());
+    }
+
+    public User findById(Long id) {
+        return executeWithSession(session -> session.get(User.class, id));
+    }
+
     public void update(User user) {
         executeInTransaction(session -> session.update(user));
     }
@@ -29,19 +43,32 @@ public class UserDAO {
     public void delete(User user) {
         executeInTransaction(session -> session.delete(user));
     }
+    
+    public User login(String name, String password) {
+        return executeWithSession(session -> {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteria = builder.createQuery(User.class);
+            Root<User> root = criteria.from(User.class);
 
-    public User findById(Long id) {
-        return executeWithSession(session -> session.get(User.class, id));
-    }
-
-    public List<User> findAll() {
-        return executeWithSession(session -> session.createQuery("FROM User", User.class).list());
-    }
+            criteria.select(root);
+            criteria.where(builder.and(builder.equal(root.get("name"), name), builder.equal(root.get("password"), password)));
+            
+            TypedQuery<User> query = session.createQuery(criteria);
+            
+            try {
+                return query.getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            }
+        });
+    }    
 
     private void executeInTransaction(Consumer<Session> operation) {
         Transaction transaction = null;
-
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+    
+        try {
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             operation.accept(session);
             transaction.commit();
@@ -51,6 +78,10 @@ public class UserDAO {
             }
         
             throw ex;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -59,6 +90,5 @@ public class UserDAO {
             return operation.apply(session);
         }
     }
+
 }
-
-
