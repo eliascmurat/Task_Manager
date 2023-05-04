@@ -13,4 +13,8 @@ public class ConsoleUtil {
         System.out.print("\n" + TITULO + "\n\n");
     }
 
+    public static void printMessage(String message) {
+        System.out.print(message);
+    }
+
 }

@@ -2,36 +2,29 @@ package br.com.islink.views;
 
 import org.hibernate.SessionFactory;
 
-import br.com.islink.models.User;
 import br.com.islink.utils.ConsoleUtil;
 import br.com.islink.utils.HibernateUtil;
 import br.com.islink.utils.KeyBoardUtil;
+import br.com.islink.utils.LoginUtil;
 
 public class App {
 
     private static SessionFactory sessionFactory;
 
     public static void main(String[] args) {
+        // Initialize Session
         openSessionFactory();
-
+        KeyBoardUtil.openScanner();
+        
         ConsoleUtil.clear();
         ConsoleUtil.printTitle();
-        
-        KeyBoardUtil.openScanner();
-        System.out.println("> Precione [ENTER] para fazer o login");
-        
-        KeyBoardUtil.waitPressAnyKey();
-        ConsoleUtil.clear();
-        
-        User user = new User();
-        user.setName("Elias");
-        user.setBiography("Os sonhos das pessoas nunca tem fim.");
-        Login login = new Login();
-        login.signIn(user);
+        KeyBoardUtil.waitPressAnyKey("> Precione [ENTER] para iniciar");
 
-        System.out.println("> Precione [ENTER] para sair");
-        KeyBoardUtil.waitPressAnyKey();
-        
+        // Login Session
+        LoginUtil.printLoginPage();
+
+        // Close Session
+        KeyBoardUtil.waitPressAnyKey("> Precione [ENTER] para sair");
         KeyBoardUtil.closeScanner();
         closeSessionFactory();
     }
