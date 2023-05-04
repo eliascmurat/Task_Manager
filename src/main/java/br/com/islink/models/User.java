@@ -13,13 +13,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.islink.utils.DateAndTimeFormatter;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "User")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User extends DefaultEntity {
 
     @Id
