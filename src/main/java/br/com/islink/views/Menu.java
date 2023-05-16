@@ -1,59 +1,34 @@
 package br.com.islink.views;
 
-import java.util.Objects;
-
-import br.com.islink.models.User;
-import br.com.islink.utils.KeyBoardUtil;
-import br.com.islink.utils.LoginUtil;
+import br.com.islink.utils.ConsoleUtil;
 
 public class Menu {
-    
-    private User user;
 
-    public Menu(User user) {
-        this.user = user;
+    public static void printMenu() {
+        ConsoleUtil.printVerticalBorder();
+        ConsoleUtil.printVerticalBorder();
 
-        if (!Objects.isNull(user)) {
-            this.navigateMenu();
-        }
-    }
-    
-    public void printMenu() {
-        System.out.println("Selecione uma opção:");
-        System.out.println("[1] - Opção 1");
-        System.out.println("[2] - Opção 2");
-        System.out.println("[3] - Opção 3");
-        System.out.println("\n");
-        System.out.println("[0] - Sair");
-        System.out.println("\n");
-        System.out.print("Digite sua opção: ");
-    }
+        String text = "| Selecione uma opção: ";
 
-    public void navigateMenu() {
-        int option;
+        System.out.print(text);
+        System.out.print(" ".repeat(text.length() + 50));
+        System.out.println("|");
 
-        do {
-            printMenu();
-            option = KeyBoardUtil.waitChooseOption();
-            
-            switch (option) {
-                case 1:
-                    System.out.println("Opção 1 selecionada.");
-                    break;
-                case 2:
-                    System.out.println("Opção 2 selecionada.");
-                    break;
-                case 3:
-                    System.out.println("Opção 3 selecionada.");
-                    break;
-                case 0:
-                    LoginUtil.signOut(user);
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-                    break;
+        String[] options = {
+            "[1] - Opção 1", 
+            "[2] - Opção 2", 
+            "[3] - Opção 3",
+            "[0] - Sair"
+        };
+
+        for (String option : options) {
+            if (option.equals("[0] - Sair")) {
+                ConsoleUtil.printVerticalBorder();
             }
-        } while (option != 0);
+            
+            System.out.print("| " + option);
+            System.out.println("|");
+        }
     }
 
 }
