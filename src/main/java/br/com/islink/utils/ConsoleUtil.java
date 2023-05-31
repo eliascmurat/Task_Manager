@@ -28,8 +28,6 @@ public class ConsoleUtil {
     public static void printFrame() {
         printHorizontalBorder();
         printTitle();
-        Login.signIn();
-        printHorizontalBorder();
     }
 
     public static void printHorizontalBorder() {

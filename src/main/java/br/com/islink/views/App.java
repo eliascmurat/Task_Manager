@@ -13,9 +13,8 @@ public class App {
         openSessionFactory();
         
         ConsoleUtil.clearConsole();
-        ConsoleUtil.printFrame();
-
-        ConsoleUtil.getInstance().readLine();
+        
+        Login.signIn();
 
         // closeSessionFactory();
     }
